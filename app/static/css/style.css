@@ -1,0 +1,26 @@
+
+
+body { 
+	font-family: "polaris", helvetica, sans-serif;
+	background: #FFF; 
+}
+
+h1, h2, h3 { 
+	font-family: "polaris", helvetica, sans-serif;
+	margin: 0; 
+}
+
+h1 { 
+	border-bottom: 2px solid #eee; 
+}
+
+h2 { 
+	font-size: 1.2em; 
+}
+
+.form-label-horizontal {
+	margin-bottom: 6px;
+	margin-top: 6px;
+	vertical-align: middle;
+}
+
