@@ -1,7 +1,5 @@
 """ run using "python app.py" """
 from flask import Flask
-from sqlalchemy import *
-from sqlalchemy.pool import NullPool
 from flask_login import LoginManager
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -19,10 +17,7 @@ def create_app(
     app.config['WTF_CSRF_ENABLED'] = WTF_CSRF_ENABLED
     app.config['SECRET_KEY'] = 'X{WC3JsG6m7m4o8W3DwrrgJ0[Np,!O'
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-
-
-    # Setup the database.
-    # db.init_app(app)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 
     from app.routes.home_route import home
     # from app.routes.task_route import tasks
