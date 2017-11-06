@@ -2,7 +2,9 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 
 def create_app(
                 TESTING=True,
@@ -18,13 +20,17 @@ def create_app(
     app.config['SECRET_KEY'] = 'X{WC3JsG6m7m4o8W3DwrrgJ0[Np,!O'
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+    # Setup the database.
+    db.init_app(app)
 
     from app.routes.home_route import home
-    # from app.routes.task_route import tasks
+    from app.routes.exec_route import execs
     # from app.routes.user_route import user
 
     app.register_blueprint(home)
-    # app.register_blueprint(tasks)
+    app.register_blueprint(execs)
     # app.register_blueprint(user)
 
     return app
