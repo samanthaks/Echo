@@ -8,18 +8,19 @@
 </head>
 
 <body class="entire-page">
-  <div class="container border entire-page border-bottom-0 border-top-0">
-    <div class="header">
+  <div class="container border entire-page border-bottom-0 border-top-0" style="padding-left:0;padding-right:0;">
+    <div class="header" style="padding-left:15px;">
       <img style="width:250px;margin-top:25px;margin-bottom:30px;" src='/static/pics/CBS-logo.png'/>
     </div>
     <div class="cbs-banner">
         <h3 class="cbs-banner-text align-middle">Echo - Executives in Residence Appointment Scheduler</h3>
     </div>
+    {% include "student_nav.html" %}
     <div class="container">
         {% include "flash.html" %}
     </div>
 
-    <div style="margin-top:40px;">
+    <div class="container" style="margin-top:20px;">
       {% block history %}{% endblock %}
       {% block content %}
         <button type="button" class="btn-outline-cbs btn outline">Student Log in</button>

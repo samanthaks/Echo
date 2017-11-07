@@ -16,10 +16,13 @@
         <h3 class="cbs-banner-text align-middle">Echo - Executives in Residence Appointment Scheduler</h3>
     </div>
     <div class="container">
+        {% include "admin_nav.html" %}
+    </div>
+    <div class="container">
         {% include "flash.html" %}
     </div>
 
-    <div style="margin-top:40px;">
+    <div style="margin-top:20px;">
       {% block history %}{% endblock %}
       {% block content %}
         <button type="button" class="btn-outline-cbs btn outline">Student Log in</button>

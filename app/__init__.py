@@ -27,10 +27,11 @@ def create_app(
 
     from app.routes.home_route import home
     from app.routes.exec_route import execs
+    from app.routes.student_route import student
     # from app.routes.user_route import user
 
     app.register_blueprint(home)
     app.register_blueprint(execs)
-    # app.register_blueprint(user)
+    app.register_blueprint(student)
 
     return app
