@@ -4,7 +4,7 @@ from flask import Blueprint, request, redirect, render_template, url_for, \
 from werkzeug.security import generate_password_hash
 
 
-student = Blueprint('students', __name__, template_folder='../templates')
+student = Blueprint('student', __name__, template_folder='../templates')
 
 @student.route('/studentHome')
 def student_homepage():
@@ -15,5 +15,5 @@ def student_profile():
     return render_template('student_profile.html')
 
 @student.route('/requestAppt')
-def student_enter():
+def student_login():
 	return render_template('student_login.html')
