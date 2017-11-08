@@ -10,6 +10,10 @@ student = Blueprint('students', __name__, template_folder='../templates')
 def student_homepage():
     return render_template('student_home.html')
 
-@student.route('/studentProfile')
+@student.route('/preferences')
 def student_profile():
     return render_template('student_profile.html')
+
+@student.route('/requestAppt')
+def student_enter():
+	return render_template('student_login.html')
