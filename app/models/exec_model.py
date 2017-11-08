@@ -8,7 +8,7 @@ class Executives(db.Model):
     interest = db.Column(db.String(120), unique=False, nullable=True)
 
     def __repr__(self):
-        return '<Executives %r>' % self.name
+        return '<Executive %r>' % self.name
 
 class ExecForm(ModelForm):
     class Meta:
