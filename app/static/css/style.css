@@ -1,8 +1,13 @@
-
+.nodecor-button, .nodecor-button:hover {
+    color: #0081cc;
+    text-decoration: none;
+    cursor:pointer;
+}
 
 body { 
 	font-family: "polaris", helvetica, sans-serif;
 	background: #FFF; 
+	background-size: 100% 100vh;
 }
 
 h1, h2, h3 { 
@@ -24,3 +29,37 @@ h2 {
 	vertical-align: middle;
 }
 
+.cbs-banner {
+	padding-top: 20px;
+	padding-left: 15px;
+	padding-bottom: 15px;
+	background: #0081cc;
+}
+
+.cbs-banner-text {
+	color: #FFF;
+}
+
+.entire-page {
+	height:100vh;
+}
+
+.col-centered {
+	float: none;
+	margin: 0 auto;
+}
+
+.btn-outline-cbs {
+    color: #0081cc;
+    background-color: transparent;
+    background-image: none;
+} 
+
+.btn-outline-cbs.outline {
+	border: 1px solid #0081cc;
+	border-radius: 0;
+}
+
+.btn-outline-cbs:hover {
+  font-weight: 600;
+}

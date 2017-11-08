@@ -10,3 +10,4 @@ def home_page():
     # if 'Username' in session:
     #     return render_template('user_index.html')
     return render_template('index.html')
+
