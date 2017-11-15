@@ -1,0 +1,21 @@
+{% extends "admin_index.html" %}
+{% block title %}Verification Mock Login| {{ super() }}{% endblock %}
+
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+  <form method=post>
+  <dl>
+    {{ render_field(form.username) }}
+  </dl>
+  <p><input type=submit value=Login></p>
+  </form>
+  {% if data %}
+  	<h4> Verified! </h4>
+  	<p><b>Lifetime ID: </b>{{ data['lifetimeID']}}</p>
+  	<p><b>Name: </b>{{ data['name']}}</p>
+  	<p><b>Program: </b>{{ data['program']}}</p>
+  	<p><b>Entry Term: </b>{{ data['entry_term']}}</p>
+  	<p><b>Cluster: </b>{{ data['cluster']}}</p>
+  	<p><b>Email: </b>{{ data['email']}}</p>
+  {% endif %}
+{% endblock %}

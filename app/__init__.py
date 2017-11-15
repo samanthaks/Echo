@@ -13,7 +13,7 @@ def create_app(
     """Create app using config variables"""
     app = Flask(__name__)
 
-    app.config["DEBUG"] = False
+    app.config["DEBUG"] = True
     # app.config["TESTING"] = TESTING
     app.config['CSRF_ENABLED'] = CSRF_ENABLED
     app.config['WTF_CSRF_ENABLED'] = WTF_CSRF_ENABLED
