@@ -86,4 +86,11 @@ def verification_mock():
 		data = {'lifetimeID': form.username.data, 'name': name, 'program': program, 'entry_term': entry_term, 'cluster': cluster, 'email': email}
 		return render_template('verification_mock.html', form=form, data=data)
 		
+
+@admin.route('/logout')
+def logout():
+    """User Logout"""
+    session.clear()
+    flash("You were logged out!", category='success')
+    return redirect(url_for('home.home_page'))
 	
