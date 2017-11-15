@@ -2,9 +2,8 @@
 <head>
     <title>{% block title %}Echo{% endblock %}</title>
     <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}">
 </head>
 
 <body class="entire-page">

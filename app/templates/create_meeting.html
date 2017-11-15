@@ -1,16 +1,39 @@
 {% extends "admin_index.html" %}
-{% block title %}Admin Calendars | {{ super() }}{% endblock %}
+{% block title %}Create Meeting | {{ super() }}{% endblock %}
 
 {% block content %}
-	<div>
-		<button type="button" class="btn-outline-cbs btn outline"><a class="nodecor-button" href="#">Create New Meeting</a></button>
-		<br><br>
-		<button type="button" class="btn-outline-cbs btn outline"><a class="nodecor-button" href="#">Publish Executives' Schedules</a></button>
-	</div>
-	<br><br>
-	<div>
-		<div>
-			<h5>Meetings</h5>
-		</div>
-	</div>
+        <form action="" method="POST">
+            <div class="container">
+            	<div class="form-group">
+            		<h5>Schedule a Meeting</h5>
+            	</div>
+                {{ form.csrf_token }}
+                <div class="row form-group">
+                	<div class="col">
+	                    {{ form.EID.label() }}
+	                    {{ form.EID(class="form-control") }}
+	                </div>
+                </div>
+                <div class="row form-group">
+                	<div class="col">
+	                    {{ form.room.label() }}
+	                    {{ form.room(class="form-control") }}
+	                </div>
+                </div>
+                <div class="row form-group">
+                	<div class="col">
+	                    {{ form.startTime.label() }}
+	                    {{ form.startTime(class="form-control") }}
+	                </div>
+                	<div class="col">
+	                    {{ form.endTime.label() }}
+	                    {{ form.endTime(class="form-control") }}
+	                </div>
+                </div>
+                <div class="form-group">
+                	<button class="btn-outline-cbs btn outline" id="submit" type="submit">Save</button>
+            	</div>
+            </div>
+        </form>
+
 {% endblock %}
