@@ -3,6 +3,8 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
+import os
+
 
 db = SQLAlchemy()
 
