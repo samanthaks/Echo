@@ -67,6 +67,10 @@ class Admin(db.Model):
     def __repr__(self):
         return '<Admin %r>' % self.email
 
+    def __init__(self, email, password):
+        self.email = email
+        self.password = password
+
     @staticmethod
     def validate_login(password_hash, password):
         """validate password"""

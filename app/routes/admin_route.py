@@ -16,8 +16,13 @@ def admin_homepage():
 def admin_login():
     form = AdminForm(request.form)
     if request.method == 'POST':
-        admins = Admin.query.order_by(Admin.name).filter_by(active=1).all()
-
+        admin = Admin.query.filter_by(email=form.email.data).first()
+        if admin and admin.validate_login(admin.password, form.password.data):
+            session['email'] = admin.email
+            flash("Logged in successfully!", category='success')
+            return redirect(request.args.get('next') or url_for("admin.admin_homepage"))
+        flash("Wrong password!", category='error')
+        return render_template('admin_login.html', form=form)
     else:
         return render_template('admin_login.html', form=form)
 
@@ -34,7 +39,10 @@ def create_meeting():
     if request.method == 'GET':
         execs = Executive.query.order_by(Executive.name).filter_by(active=0).all()
         return render_template('create_meeting.html', form=form, execs=execs)
-    return render_template('create_meeting.html')
+    if request.method == 'POST':
+
+
+        return redirect(url_for('admin.manage_calendars'))
 
 @admin.route('/addExec', methods=['GET', 'POST'])
 def add_exec():
