@@ -39,3 +39,8 @@ def create_app(
     app.register_blueprint(admin)
 
     return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    myapp.run(host='0.0.0.0')
