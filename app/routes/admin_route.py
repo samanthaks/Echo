@@ -2,8 +2,8 @@
 from flask import Blueprint, render_template, session, request, flash, session, redirect, url_for, jsonify
 from app.models.models import Appointment, AptForm, Executive, ExecForm, Admin, AdminForm
 from app import db
-from ..models.verification_mock_login import VerificationMockForm
-from ..CBSLogin.CBSLogin import CBSLogin
+from app.models.verification_mock_login import VerificationMockForm
+from app.CBSLogin.CBSLogin import CBSLogin
 
 admin = Blueprint('admin', __name__, template_folder='../templates')
 
