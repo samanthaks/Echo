@@ -21,8 +21,8 @@ def create_app(
     app.config['WTF_CSRF_ENABLED'] = True 
     app.config['SECRET_KEY'] = 'X{WC3JsG6m7m4o8W3DwrrgJ0[Np,!O'
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
     # Setup the database.
