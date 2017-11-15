@@ -1,2 +1,1 @@
-pip install gunicorn
-web: gunicorn run:app
+web gunicorn run:app
