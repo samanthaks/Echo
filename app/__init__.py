@@ -15,10 +15,10 @@ def create_app(
     """Create app using config variables"""
     app = Flask(__name__)
 
-    app.config["DEBUG"] = True
+    app.config["DEBUG"] = False
     # app.config["TESTING"] = TESTING
-    app.config['CSRF_ENABLED'] = CSRF_ENABLED
-    app.config['WTF_CSRF_ENABLED'] = WTF_CSRF_ENABLED
+    app.config['CSRF_ENABLED'] = True
+    app.config['WTF_CSRF_ENABLED'] = True 
     app.config['SECRET_KEY'] = 'X{WC3JsG6m7m4o8W3DwrrgJ0[Np,!O'
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
