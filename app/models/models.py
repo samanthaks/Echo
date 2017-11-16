@@ -15,6 +15,12 @@ class Appointment(db.Model):
     def __repr__(self):
         return '<Appointment %r>' % self.AptID
 
+    def __init__(self, name, startTime, endTime, eid):
+        self.room = name
+        self.startTime = startTime
+        self.endTime = endTime
+        self.EID = eid
+        
 
 class AptForm(ModelForm):
     class Meta:
@@ -46,8 +52,12 @@ class Executive(db.Model):
     EID = db.Column(db.Integer, primary_key = True, autoincrement=True)
     name = db.Column(db.String(80), unique=True, nullable=False, info={'label':'Executive Name'})
     interest = db.Column(db.String(120), unique=False, nullable=True, info={'label':'Field of Interest'})
-    active = db.Column(db.Integer, nullable=False, default=0)
+    active = db.Column(db.Integer, nullable=False, default=1)
     appointments = db.relationship('Appointment', backref='executive')
+
+    def __init__(self, name, interest):
+        self.name = name
+        self.interest = interest
     
     def __repr__(self):
         return '<Executive %r>' % self.name
@@ -61,7 +71,7 @@ class Admin(db.Model):
     __tablename__ = 'admin'
     
     email = db.Column(db.String(120), primary_key = True, nullable=False, info={'label':'Email'})
-    password = db.Column(db.String(50), unique=True, nullable=False, info={'label':'Password'})
+    password = db.Column(db.String(200), unique=True, nullable=False, info={'label':'Password'})
     active = db.Column(db.Integer, nullable=False, default=1)
 
     def __repr__(self):
