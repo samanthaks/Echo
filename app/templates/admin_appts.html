@@ -1,8 +1,39 @@
 {% extends "admin_index.html" %}
-{% block title %}Manage Waitlists | {{ super() }}{% endblock %}
+{% block title %}Appointments | {{ super() }}{% endblock %}
 
 {% block content %}
+<h4>Upcomming Appointments</h4>
+{% for exec in execs %}
+	<h5 style="padding-top: 10px; padding-bottom:5px;">{{exec.name}}</h5>
+	{% set num_apts = [0] %}
+	{% for appt in appts %}
+		{% if appt.EID == exec.EID %}
+			{% if num_apts.append(num_apts.pop() + 1) %}{% endif %}
+			<div class="row" style="padding-bottom: 20px;">
+				<div class="col col-lg-2" style="padding-top: 5px;">
+					<button type="button" class="btn btn-outline-cbs outline btn-block"><a class="nodecor-button" href="{{ url_for('admin.manage_appt', id=appt.AptID) }}">Manage</a></button>
+				</div>
+				<div class="col col-lg-10" >
+					<table class="table">
+						<tbody>
+							<tr>
+								<td>Start: {{ appt.startTime }}</td>
+								<td>End: {{ appt.endTime }}</td>
+								<td>Room: {{ appt.room }}</td>
+								<td>Student Assigned: {{ appt.SID }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		{% endif %}
+	{% endfor %}
+	{% if num_apts.pop() == 0 %}
+		<div style="height:40px;">
+			No appointments
+		</div>
+	{% endif %}
 
-
+{% endfor %}
 
 {% endblock %}

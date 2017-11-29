@@ -279,6 +279,16 @@
       </div>
       <div class="col">
         <div>
+          <p>Room:</p>
+          <select class="form-control">
+            <option value="{{form.name}}">Room 1</option>
+            <option value="{{form.name}}">Room 2</option>
+            <option value="{{form.name}}">Room 3</option>
+            <option value="{{form.name}}">Room 4</option>
+            <option value="{{form.name}}">Room 5</option>
+          </select>
+        </div>
+        <div style="padding-top:20px;">
           <p>Start Time:</p><select name="NoEarlierThan" class="form-control">
             <option value=0>midnight</option>
             <option value=1>1 am</option>
@@ -354,7 +364,8 @@
         </div>
 
         <button class="btn-outline-cbs btn outline" id="submit" type="submit" style="margin-top:20px;">Create Appointment</button>
-
+        <div style="height:40px;">
+        </div>
       </div>
     </div>
 

@@ -21,7 +21,13 @@
                 <div class="row form-group">
                 	<div class="col">
 	                    {{ form.room.label() }}
-	                    {{ form.room(class="form-control") }}
+                        <select class="form-control">
+                            <option value="{{form.name}}">Room 1</option>
+                            <option value="{{form.name}}">Room 2</option>
+                            <option value="{{form.name}}">Room 3</option>
+                            <option value="{{form.name}}">Room 4</option>
+                            <option value="{{form.name}}">Room 5</option>
+                        </select>
 	                </div>
                 </div>
                 <div class="row form-group">
