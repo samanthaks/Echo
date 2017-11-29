@@ -33,15 +33,14 @@ def manage_calendars():
     #     return render_template('user_index.html')
     return render_template('admin_calendars.html')
 
-@admin.route('/createMeeting', methods=['GET', 'POST'])
-def create_meeting():
+@admin.route('/createMeeting_v1', methods=['GET', 'POST'])
+def create_meeting_v1():
     form = AptForm(request.form)
     if request.method == 'GET':
-        execs = Executive.query.order_by(Executive.name).filter_by(active=0).all()
-        return render_template('create_meeting.html', form=form, execs=execs)
+        execs = Executive.query.order_by(Executive.name).filter_by(active=1).all()
+        return render_template('create_meeting_v1.html', form=form, execs=execs)
     if request.method == 'POST':
-
-
+        flash("Appointments Made!", category='success')
         return redirect(url_for('admin.manage_calendars'))
 
 @admin.route('/addExec', methods=['GET', 'POST'])
@@ -85,7 +84,17 @@ def verification_mock():
 		# name, program, entry_term, cluster, email = 1,2,3,4,5
 		data = {'lifetimeID': form.username.data, 'name': name, 'program': program, 'entry_term': entry_term, 'cluster': cluster, 'email': email}
 		return render_template('verification_mock.html', form=form, data=data)
-		
+
+@admin.route('/createMeeting_v2', methods=['GET', 'POST'])
+def create_meeting_v2():
+    form = AptForm(request.form)
+    if request.method == 'GET':
+        execs = Executive.query.order_by(Executive.name).filter_by(active=1).all()
+        print(execs)
+        return render_template('create_meeting_v2.html', form=form, execs=execs)
+    if request.method == 'POST':
+        flash("Appointments Made!", category='success')
+        return redirect(url_for('admin.manage_calendars'))
 
 @admin.route('/logout')
 def logout():

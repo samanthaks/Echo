@@ -63,3 +63,19 @@ h2 {
 .btn-outline-cbs:hover {
   font-weight: 600;
 }
+
+.cal-column {
+	float: left;
+    line-height: 1.0;
+    width: 17px;
+    vertical-align: middle;
+    padding: 0px 3px 0px 3px;
+    margin: 1px;
+    text-align: center;
+    cursor: move;
+}
+
+.highlight {
+	color: #FFF;
+	background: #0357dd;
+}

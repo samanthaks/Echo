@@ -1,0 +1,368 @@
+{% extends "admin_index.html" %}
+{% block title %}Create Meeting | {{ super() }}{% endblock %}
+
+{% block content %}
+
+<body onload="PageLoaded();">
+
+
+<div id=MainBody>
+
+<script>
+  var IsMouseDownDates=false;
+  var IsMouseDownSideLabel=false;
+  var IsMouseDownTopLabel=false;
+  var AnchorRow=0;
+  var AnchorColumn=0;
+  var HoverRow=0;
+  var HoverColumn=0;
+  var WriteMode="";
+  var Dates = [];
+  var xMousePos;
+  var yMousePos;
+  var xMouseRef;
+  var yMouseRef;
+  var count=0;
+  document.onmouseup=MouseUp;
+  var Months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var DaysOfWeek = ["S","M","T","W","R","F","S"];
+
+  if (document.layers) { 
+    document.captureEvents(Event.MOUSEMOVE);
+    document.onmousemove = captureMousePosition;
+  } else if (document.all) { 
+    document.onmousemove = captureMousePosition;
+  } else if (document.getElementById) { 
+    document.onmousemove = captureMousePosition;
+  }
+
+  var mousewheelevt=(/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel" //FF doesn't recognize mousewheel as of FF3.x
+ 
+
+  function captureMousePosition(e) {
+    if (document.layers) {
+        xMousePos = e.pageX;
+        yMousePos = e.pageY;
+        xMousePosMax = window.innerWidth+window.pageXOffset;
+        yMousePosMax = window.innerHeight+window.pageYOffset;
+    } else if (document.all) {
+        xMousePos = window.event.x+document.body.scrollLeft;
+        yMousePos = window.event.y+document.body.scrollTop;
+        xMousePosMax = document.body.clientWidth+document.body.scrollLeft;
+        yMousePosMax = document.body.clientHeight+document.body.scrollTop;
+    } else if (document.getElementById) {
+        xMousePos = e.pageX;
+        yMousePos = e.pageY;
+        xMousePosMax = window.innerWidth+window.pageXOffset;
+        yMousePosMax = window.innerHeight+window.pageYOffset;
+    }
+
+    if (IsMouseDownTopLabel) {
+      var DateOfCell = document.getElementById("DateOf-1-1").value.split("-");
+      var t = new Date(DateOfCell[0],DateOfCell[1]-1,DateOfCell[2],12,0);
+
+      if (xMousePos > xMouseRef+20) {
+        xMouseRef = xMousePos;
+        if (t.getDay()==1) {
+          ShiftCalendar(-1);
+        }
+      } else if (xMousePos < xMouseRef-20) {
+        xMouseRef = xMousePos;
+        if (t.getDay()==0) {
+          ShiftCalendar(+1);
+        }
+      }
+    }
+  }
+
+  function MouseDownSideLabel() {
+    IsMouseDownSideLabel=true;
+    yMouseRef = yMousePos;
+  }
+
+  function MouseDownTopLabel() {
+    IsMouseDownTopLabel=true;
+    xMouseRef = xMousePos;
+  }
+
+  function MouseDownDate(Row,Column) {
+    IsMouseDownDates=true;
+    AnchorRow=Row;
+    AnchorColumn=Column;
+    HoverRow=Row;
+    HoverColumn=Column;
+    if (ArraySearch(Dates,document.getElementById("DateOf-"+Row+"-"+Column).value)) {
+      WriteMode = "erase";
+    } else {
+      WriteMode = "write";
+    }
+    ReColor();
+  }
+
+  function MouseOverDate(Row,Column) {
+    if (IsMouseDownDates) {
+      HoverRow=Row;
+      HoverColumn=Column;
+      ReColor();
+    }
+  }
+
+
+
+  function Unique(InputArray) {
+    var a = [];
+    for(var i=0; i<InputArray.length; i++) {
+      unique = 1;
+      for(var j=i+1; j<InputArray.length; j++) {
+        if (InputArray[i] == InputArray[j]) {unique = 0;}
+      }
+      if (unique&&(InputArray[i]!=null)&&(InputArray[i]!="")) { a.push(InputArray[i]); }
+    }
+    return a.sort();
+  }
+
+  function MouseUp() {
+
+    if (WriteMode!="") {
+      var HighlightedDates = [];
+      for (Row=1;Row<=6;Row++) {
+        for (Column=1;Column<=7;Column++) {
+          if (((AnchorRow-Row)*(Row-HoverRow)>=0) && ((AnchorColumn-Column)*(Column-HoverColumn)>=0)) {
+            HighlightedDates.push(document.getElementById("DateOf-"+Row+"-"+Column).value);
+          }
+        }
+      }
+
+    }
+    
+    WriteMode = "";
+
+    IsMouseDownDates=false;
+    IsMouseDownSideLabel=false;
+    IsMouseDownTopLabel=false;
+
+  }
+
+  function ArraySearch(arr, obj) {
+    for(var i=0; i<arr.length; i++) {
+      if (arr[i] == obj) return true;
+    }
+    return false;
+  }
+
+  function ReColor() {
+    for (Row=1;Row<=6;Row++) {
+      for (Column=1;Column<=7;Column++) {
+        if ((WriteMode!="") && ((AnchorRow-Row)*(Row-HoverRow)>=0) && ((AnchorColumn-Column)*(Column-HoverColumn)>=0)) {
+          if (WriteMode == "write") {
+            document.getElementById("Day-"+Row+"-"+Column).style.backgroundColor='#0081cc';
+            document.getElementById("Day-"+Row+"-"+Column).style.color='white';
+          } else {
+            document.getElementById("Day-"+Row+"-"+Column).style.backgroundColor='#ffffff';
+            document.getElementById("Day-"+Row+"-"+Column).style.color='black';
+          }
+
+        } else {
+
+          if (ArraySearch(Dates,document.getElementById("DateOf-"+Row+"-"+Column).value)) {
+            document.getElementById("Day-"+Row+"-"+Column).style.backgroundColor='#0081cc';
+            document.getElementById("Day-"+Row+"-"+Column).style.color='white';
+          } else {
+            document.getElementById("Day-"+Row+"-"+Column).style.backgroundColor='#ffffff';
+            document.getElementById("Day-"+Row+"-"+Column).style.color='black';
+          }
+
+        }
+      }
+    }
+  }
+
+  
+  function PageLoaded() {
+  }
+  
+</script>
+
+
+
+
+
+<form action="" method="POST" onsubmit="return PreSubmitCheck();">
+  <div class="container">
+    <div class="row form-group">
+      {{ form.EID.label() }}:
+      <select class="form-control">
+      {% for exec in execs %}
+          <option value="{{exec.name}}">{{ exec.name }}</option>
+      {% endfor %}
+      </select>
+    </div>
+
+    <div class="row form-group">
+      Select Dates: <br>
+      <i>Click dates to choose.</i>
+    </div>
+
+
+    <div class="row">
+      <div class="col col-lg-6" id="Calendar" onselectstart="return false" onmousedown="return false" onmousewheel=wheel>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th></th>
+              <th id='DayOfWeek-1' onmousedown='javascript:MouseDownTopLabel();'>S</th>
+              <th id='DayOfWeek-2' onmousedown='javascript:MouseDownTopLabel();'>M</th>
+              <th id='DayOfWeek-3' onmousedown='javascript:MouseDownTopLabel();'>T</th>
+              <th id='DayOfWeek-4' onmousedown='javascript:MouseDownTopLabel();'>W</th>
+              <th id='DayOfWeek-5' onmousedown='javascript:MouseDownTopLabel();'>R</th>
+              <th id='DayOfWeek-6' onmousedown='javascript:MouseDownTopLabel();'>F</th>
+              <th id='DayOfWeek-7' onmousedown='javascript:MouseDownTopLabel();'>S</th>
+              <th></th>
+            </tr>
+            <tr>
+              <th id='Month-1' onmousedown='javascript:MouseDownSideLabel();'>Nov/Dec</th>
+              <td onmouseover='javascript:MouseOverDate(1,1);' onmousedown='javascript:MouseDownDate(1,1);' id='Day-1-1'>26<input type=hidden id='DateOf-1-1' value='2017-11-26'></td>
+              <td onmouseover='javascript:MouseOverDate(1,2);' onmousedown='javascript:MouseDownDate(1,2);' id='Day-1-2'>27<input type=hidden id='DateOf-1-2' value='2017-11-27'></td>
+              <td onmouseover='javascript:MouseOverDate(1,3);' onmousedown='javascript:MouseDownDate(1,3);' id='Day-1-3'>28<input type=hidden id='DateOf-1-3' value='2017-11-28'></td>
+              <td onmouseover='javascript:MouseOverDate(1,4);' onmousedown='javascript:MouseDownDate(1,4);' id='Day-1-4'>29<input type=hidden id='DateOf-1-4' value='2017-11-29'></td>
+              <td onmouseover='javascript:MouseOverDate(1,5);' onmousedown='javascript:MouseDownDate(1,5);' id='Day-1-5'>30<input type=hidden id='DateOf-1-5' value='2017-11-30'></td>
+              <td onmouseover='javascript:MouseOverDate(1,6);' onmousedown='javascript:MouseDownDate(1,6);' id='Day-1-6'>1<input type=hidden id='DateOf-1-6' value='2017-12-01'></td>
+              <td onmouseover='javascript:MouseOverDate(1,7);' onmousedown='javascript:MouseDownDate(1,7);' id='Day-1-7'>2<input type=hidden id='DateOf-1-7' value='2017-12-02'></td>
+              <td id='Year-1' onmousedown='javascript:MouseDownSideLabel();'>2017</td>
+            </tr>
+            <tr>
+              <th id='Month-2' onmousedown='javascript:MouseDownSideLabel();'>Dec</th>
+              <td onmouseover='javascript:MouseOverDate(2,1);' onmousedown='javascript:MouseDownDate(2,1);' id='Day-2-1'>3<input type=hidden id='DateOf-2-1' value='2017-12-03'></td>
+              <td onmouseover='javascript:MouseOverDate(2,2);' onmousedown='javascript:MouseDownDate(2,2);' id='Day-2-2'>4<input type=hidden id='DateOf-2-2' value='2017-12-04'></td>
+              <td onmouseover='javascript:MouseOverDate(2,3);' onmousedown='javascript:MouseDownDate(2,3);' id='Day-2-3'>5<input type=hidden id='DateOf-2-3' value='2017-12-05'></td>
+              <td onmouseover='javascript:MouseOverDate(2,4);' onmousedown='javascript:MouseDownDate(2,4);' id='Day-2-4'>6<input type=hidden id='DateOf-2-4' value='2017-12-06'></td>
+              <td onmouseover='javascript:MouseOverDate(2,5);' onmousedown='javascript:MouseDownDate(2,5);' id='Day-2-5'>7<input type=hidden id='DateOf-2-5' value='2017-12-07'></td>
+              <td onmouseover='javascript:MouseOverDate(2,6);' onmousedown='javascript:MouseDownDate(2,6);' id='Day-2-6'>8<input type=hidden id='DateOf-2-6' value='2017-12-08'></td>
+              <td onmouseover='javascript:MouseOverDate(2,7);' onmousedown='javascript:MouseDownDate(2,7);' id='Day-2-7'>9<input type=hidden id='DateOf-2-7' value='2017-12-09'></td>
+              <td id='Year-2' onmousedown='javascript:MouseDownSideLabel();'>2017</td>
+            </tr>
+            <tr>
+              <th id='Month-3' onmousedown='javascript:MouseDownSideLabel();'>Dec</th>
+              <td onmouseover='javascript:MouseOverDate(3,1);' onmousedown='javascript:MouseDownDate(3,1);' id='Day-3-1'>10<input type=hidden id='DateOf-3-1' value='2017-12-10'></td>
+              <td onmouseover='javascript:MouseOverDate(3,2);' onmousedown='javascript:MouseDownDate(3,2);' id='Day-3-2'>11<input type=hidden id='DateOf-3-2' value='2017-12-11'></td>
+              <td onmouseover='javascript:MouseOverDate(3,3);' onmousedown='javascript:MouseDownDate(3,3);' id='Day-3-3'>12<input type=hidden id='DateOf-3-3' value='2017-12-12'></td>
+              <td onmouseover='javascript:MouseOverDate(3,4);' onmousedown='javascript:MouseDownDate(3,4);' id='Day-3-4'>13<input type=hidden id='DateOf-3-4' value='2017-12-13'></td>
+              <td onmouseover='javascript:MouseOverDate(3,5);' onmousedown='javascript:MouseDownDate(3,5);' id='Day-3-5'>14<input type=hidden id='DateOf-3-5' value='2017-12-14'></td>
+              <td onmouseover='javascript:MouseOverDate(3,6);' onmousedown='javascript:MouseDownDate(3,6);' id='Day-3-6'>15<input type=hidden id='DateOf-3-6' value='2017-12-15'></td>
+              <td onmouseover='javascript:MouseOverDate(3,7);' onmousedown='javascript:MouseDownDate(3,7);' id='Day-3-7'>16<input type=hidden id='DateOf-3-7' value='2017-12-16'></td>
+              <td id='Year-3' onmousedown='javascript:MouseDownSideLabel();'>2017</td>
+            </tr>
+            <tr>
+              <th id='Month-4' onmousedown='javascript:MouseDownSideLabel();'>Dec</th>
+              <td onmouseover='javascript:MouseOverDate(4,1);' onmousedown='javascript:MouseDownDate(4,1);' id='Day-4-1'>17<input type=hidden id='DateOf-4-1' value='2017-12-17'></td>
+              <td onmouseover='javascript:MouseOverDate(4,2);' onmousedown='javascript:MouseDownDate(4,2);' id='Day-4-2'>18<input type=hidden id='DateOf-4-2' value='2017-12-18'></td>
+              <td onmouseover='javascript:MouseOverDate(4,3);' onmousedown='javascript:MouseDownDate(4,3);' id='Day-4-3'>19<input type=hidden id='DateOf-4-3' value='2017-12-19'></td>
+              <td onmouseover='javascript:MouseOverDate(4,4);' onmousedown='javascript:MouseDownDate(4,4);' id='Day-4-4'>20<input type=hidden id='DateOf-4-4' value='2017-12-20'></td>
+              <td onmouseover='javascript:MouseOverDate(4,5);' onmousedown='javascript:MouseDownDate(4,5);' id='Day-4-5'>21<input type=hidden id='DateOf-4-5' value='2017-12-21'></td>
+              <td onmouseover='javascript:MouseOverDate(4,6);' onmousedown='javascript:MouseDownDate(4,6);' id='Day-4-6'>22<input type=hidden id='DateOf-4-6' value='2017-12-22'></td>
+              <td onmouseover='javascript:MouseOverDate(4,7);' onmousedown='javascript:MouseDownDate(4,7);' id='Day-4-7'>23<input type=hidden id='DateOf-4-7' value='2017-12-23'></td>
+              <td id='Year-4' onmousedown='javascript:MouseDownSideLabel();'>2017</td>
+            </tr>
+            <tr>
+              <th id='Month-5' onmousedown='javascript:MouseDownSideLabel();'>Dec</th>
+              <td onmouseover='javascript:MouseOverDate(5,1);' onmousedown='javascript:MouseDownDate(5,1);' id='Day-5-1'>24<input type=hidden id='DateOf-5-1' value='2017-12-24'></td>
+              <td onmouseover='javascript:MouseOverDate(5,2);' onmousedown='javascript:MouseDownDate(5,2);' id='Day-5-2'>25<input type=hidden id='DateOf-5-2' value='2017-12-25'></td>
+              <td onmouseover='javascript:MouseOverDate(5,3);' onmousedown='javascript:MouseDownDate(5,3);' id='Day-5-3'>26<input type=hidden id='DateOf-5-3' value='2017-12-26'></td>
+              <td onmouseover='javascript:MouseOverDate(5,4);' onmousedown='javascript:MouseDownDate(5,4);' id='Day-5-4'>27<input type=hidden id='DateOf-5-4' value='2017-12-27'></td>
+              <td onmouseover='javascript:MouseOverDate(5,5);' onmousedown='javascript:MouseDownDate(5,5);' id='Day-5-5'>28<input type=hidden id='DateOf-5-5' value='2017-12-28'></td>
+              <td onmouseover='javascript:MouseOverDate(5,6);' onmousedown='javascript:MouseDownDate(5,6);' id='Day-5-6'>29<input type=hidden id='DateOf-5-6' value='2017-12-29'></td>
+              <td onmouseover='javascript:MouseOverDate(5,7);' onmousedown='javascript:MouseDownDate(5,7);' id='Day-5-7'>30<input type=hidden id='DateOf-5-7' value='2017-12-30'></td>
+              <td id='Year-5' onmousedown='javascript:MouseDownSideLabel();'>2017</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <div>
+          <p>Start Time:</p><select name="NoEarlierThan" class="form-control">
+            <option value=0>midnight</option>
+            <option value=1>1 am</option>
+            <option value=2>2 am</option>
+            <option value=3>3 am</option>
+            <option value=4>4 am</option>
+            <option value=5>5 am</option>
+            <option value=6>6 am</option>
+            <option value=7>7 am</option>
+            <option value=8>8 am</option>
+            <option selected value=9>9 am</option>
+            <option value=10>10 am</option>
+            <option value=11>11 am</option>
+            <option value=12>noon</option>
+            <option value=13>1 pm</option>
+            <option value=14>2 pm</option>
+            <option value=15>3 pm</option>
+            <option value=16>4 pm</option>
+            <option value=17>5 pm</option>
+            <option value=18>6 pm</option>
+            <option value=19>7 pm</option>
+            <option value=20>8 pm</option>
+            <option value=21>9 pm</option>
+            <option value=22>10 pm</option>
+            <option value=23>11 pm</option>
+            <option value=0>midnight</option>
+          </select>
+        </div>
+
+        <div style="padding-top:20px;">
+          <p>End Time:</p><select name="NoLaterThan" class="form-control">
+            <option value=0>midnight</option>
+            <option value=1>1 am</option>
+            <option value=2>2 am</option>
+            <option value=3>3 am</option>
+            <option value=4>4 am</option>
+            <option value=5>5 am</option>
+            <option value=6>6 am</option>
+            <option value=7>7 am</option>
+            <option value=8>8 am</option>
+            <option value=9>9 am</option>
+            <option value=10>10 am</option>
+            <option value=11>11 am</option>
+            <option value=12>noon</option>
+            <option value=13>1 pm</option>
+            <option value=14>2 pm</option>
+            <option value=15>3 pm</option>
+            <option value=16>4 pm</option>
+            <option selected value=17>5 pm</option>
+            <option value=18>6 pm</option>
+            <option value=19>7 pm</option>
+            <option value=20>8 pm</option>
+            <option value=21>9 pm</option>
+            <option value=22>10 pm</option>
+            <option value=23>11 pm</option>
+            <option value=0>midnight</option>
+          </select>
+        </div>
+
+        <div style="padding-top:20px;">
+          <p>Appointment Duration:</p><select name="Duration" class="form-control">
+            <option value=0>15 mins</option>
+            <option value=1>20 mins</option>
+            <option value=2>25 mins</option>
+            <option value=3>30 mins</option>
+            <option value=4>35 mins</option>
+            <option value=5>40 mins</option>
+            <option value=6>45 mins</option>
+            <option value=7>50 mins</option>
+            <option value=8>55 mins</option>
+            <option value=9>1 hour</option>
+          </select>
+        </div>
+
+        <button class="btn-outline-cbs btn outline" id="submit" type="submit" style="margin-top:20px;">Create Appointment</button>
+
+      </div>
+    </div>
+
+  </div>
+ 
+</form>
+
+</div>
+
+
+{% endblock %}

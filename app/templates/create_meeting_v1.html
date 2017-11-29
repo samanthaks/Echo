@@ -10,8 +10,12 @@
                 {{ form.csrf_token }}
                 <div class="row form-group">
                 	<div class="col">
-	                    {{ form.EID.label() }}
-	                    {{ form.EID(class="form-control") }}
+                        {{ form.EID.label() }}:
+                        <select class="form-control">
+                        {% for exec in execs %}
+                            <option value="{{exec.name}}">{{ exec.name }}</option>
+                        {% endfor %}
+                        </select>
 	                </div>
                 </div>
                 <div class="row form-group">
@@ -23,11 +27,11 @@
                 <div class="row form-group">
                 	<div class="col">
 	                    {{ form.startTime.label() }}
-	                    {{ form.startTime(class="form-control") }}
+	                    {{ form.startTime(class="form-control", type="datetime-local") }}
 	                </div>
                 	<div class="col">
 	                    {{ form.endTime.label() }}
-	                    {{ form.endTime(class="form-control") }}
+	                    {{ form.endTime(class="form-control", type="datetime-local") }}
 	                </div>
                 </div>
                 <div class="form-group">
