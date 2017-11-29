@@ -7,7 +7,11 @@
   <dl>
     {{ render_field(form.username) }}
   </dl>
-  <p><input type=submit value=Login></p>
+
+  <div class="col-lg-2">
+    <button class="btn-outline-cbs btn btn-block outline" type="submit">Search</button>
+  </div>
+
   </form>
   {% if data %}
   	<h4> Verified! </h4>

@@ -96,6 +96,14 @@ def create_meeting_v2():
         flash("Appointments Made!", category='success')
         return redirect(url_for('admin.manage_calendars'))
 
+@admin.route('/waitlists')
+def manage_waitlists():
+    return render_template('admin_waitlists.html')
+
+@admin.route('/meetings')
+def manage_appts():
+    return render_template('admin_appts.html')
+
 @admin.route('/logout')
 def logout():
     """User Logout"""
