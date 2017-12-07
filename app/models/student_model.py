@@ -1,6 +1,6 @@
 """exec_model.py"""
 from app import db
-from . import apt_model
+from . import models
 from wtforms_alchemy import ModelForm
 
 class Student(db.Model):

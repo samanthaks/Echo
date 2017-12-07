@@ -1,31 +1,31 @@
 from app import db
 from werkzeug.security import check_password_hash
 from wtforms_alchemy import ModelForm
+from wtforms_components.fields import SelectField, DateTimeLocalField
+from datetime import datetime
 
 class Appointment(db.Model):
     __tablename__ = 'appointment'
+    __table_args__ = {'extend_existing': True} 
+    
     AptID = db.Column(db.Integer, primary_key = True, autoincrement=True)
     SID = db.Column(db.Integer, db.ForeignKey('student.SID'), nullable=True)
-    EID = db.Column(db.Integer, db.ForeignKey('executive.EID'), nullable=False, info={'label':'Executive'})
+    EID = db.Column(db.Integer, db.ForeignKey('executive.EID'), nullable=False, info={'label':'Executive', 'form_field_class': SelectField})
     room = db.Column(db.String(10), unique=False, nullable=False, info={'label':'Location'})
-    startTime = db.Column(db.DateTime, unique=False, nullable=False, info={'label':'Start Time'})
-    endTime = db.Column(db.DateTime, unique=False, nullable=False, info={'label':'End Time'})
+    startTime = db.Column(db.DateTime, unique=False, nullable=False, info={'label':'Start Time', 'form_field_class': DateTimeLocalField})
+    endTime = db.Column(db.DateTime, unique=False, nullable=False, info={'label':'End Time', 'form_field_class': DateTimeLocalField})
     state = db.Column(db.Integer, unique=False, nullable=False, default=0)
 
     def __repr__(self):
         return '<Appointment %r>' % self.AptID
-
-    def __init__(self, name, startTime, endTime, eid):
-        self.room = name
-        self.startTime = startTime
-        self.endTime = endTime
-        self.EID = eid
         
 
 class AptForm(ModelForm):
     class Meta:
         include = ['EID']
         model = Appointment
+        startTime = SelectField(label='Start time')
+        endTime = SelectField(label='End time')
 
 class Student(db.Model):
     __tablename__ = 'student'
