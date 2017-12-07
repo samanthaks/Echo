@@ -4,6 +4,7 @@ from app.models.models import Appointment, AptForm, Executive, ExecForm, Admin, 
 from app import db
 from app.models.verification_mock_login import VerificationMockForm
 from app.CBSLogin.CBSLogin import CBSLogin
+from datetime import datetime
 
 admin = Blueprint('admin', __name__, template_folder='../templates')
 
@@ -37,9 +38,15 @@ def manage_calendars():
 def create_meeting_v1():
     form = AptForm(request.form)
     if request.method == 'GET':
-        execs = Executive.query.order_by(Executive.name).filter_by(active=1).all()
-        return render_template('create_meeting_v1.html', form=form, execs=execs)
+        form.EID.choices = [(Exec.EID, Exec.name) for Exec in Executive.query.order_by(Executive.name).filter_by(active=1).all()]
+        return render_template('create_meeting_v1.html', form=form)
     if request.method == 'POST':
+        appointment = Appointment()
+        form.populate_obj(appointment)
+        appointment.startTime = datetime.strptime(form.startTime._value(), "%Y-%m-%dT%H:%M")
+        appointment.endTime = datetime.strptime(form.endTime._value(), "%Y-%m-%dT%H:%M")
+        db.session.add(appointment)
+        db.session.commit()
         flash("Appointments Made!", category='success')
         return redirect(url_for('admin.manage_calendars'))
 
@@ -90,7 +97,6 @@ def create_meeting_v2():
     form = AptForm(request.form)
     if request.method == 'GET':
         execs = Executive.query.order_by(Executive.name).filter_by(active=1).all()
-        print(execs)
         return render_template('create_meeting_v2.html', form=form, execs=execs)
     if request.method == 'POST':
         flash("Appointments Made!", category='success')
@@ -102,7 +108,8 @@ def manage_waitlists():
 
 @admin.route('/meetings')
 def manage_appts():
-    return render_template('admin_appts.html')
+    appointments = Appointment.query.all()
+    return render_template('admin_appts.html', appointments=appointments)
 
 @admin.route('/logout')
 def logout():

@@ -10,28 +10,26 @@
                 {{ form.csrf_token }}
                 <div class="row form-group">
                 	<div class="col">
-                        {{ form.EID.label() }}:
-                        <select class="form-control">
-                        {% for exec in execs %}
-                            <option value="{{exec.name}}">{{ exec.name }}</option>
-                        {% endfor %}
+                        {{ form.EID.label() }}
+                        {{ form.EID(class="form-control") }}
                         </select>
 	                </div>
                 </div>
                 <div class="row form-group">
                 	<div class="col">
 	                    {{ form.room.label() }}
-	                    {{ form.room(class="form-control") }}
+	                    <!-- {{ form.room(class="form-control") }} -->
+                        <input class="form-control" id="room" name="room" required="" type="text" value="">
 	                </div>
                 </div>
                 <div class="row form-group">
                 	<div class="col">
 	                    {{ form.startTime.label() }}
-	                    {{ form.startTime(class="form-control", type="datetime-local") }}
+	                    {{ form.startTime(class="form-control") }}
 	                </div>
                 	<div class="col">
 	                    {{ form.endTime.label() }}
-	                    {{ form.endTime(class="form-control", type="datetime-local") }}
+	                    {{ form.endTime(class="form-control") }}
 	                </div>
                 </div>
                 <div class="form-group">
