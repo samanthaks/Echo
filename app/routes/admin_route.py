@@ -113,11 +113,11 @@ def manage_appts():
     execs = Executive.query.order_by(Executive.EID).filter_by(active=1).all() 
     return render_template('admin_appts.html', appts=appts, execs=execs)
 
-@admin.route('/meeting')
-def manage_appt():
-    appt_id = request.args.get('id')
-    appts = Appointment.query.filter_by(AptID=appt_id).all()
-    return render_template('admin_appt_manage.html', appts=appts)
+@admin.route('/meeting/<int:id>')
+def manage_appt(id):
+    # appt_id = request.args.get('id')
+    appt = Appointment.query.filter_by(AptID=id).all()
+    return render_template('admin_appt_manage.html', appt=appt[0])
 
 @admin.route('/logout')
 def logout():
@@ -125,4 +125,3 @@ def logout():
     session.clear()
     flash("You were logged out!", category='success')
     return redirect(url_for('home.home_page'))
-	

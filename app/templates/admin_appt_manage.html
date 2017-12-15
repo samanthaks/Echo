@@ -3,6 +3,62 @@
 
 {% block content %}
 
+<button type="button" class="btn btn-outline-cbs outline btn-block"><a class="nodecor-button" href="#">Save</a></button>
+
+<button type="button" class="btn btn-outline-cbs outline btn-block"><a class="nodecor-button" href="#">Save &amp; Publish</a></button>
+
+<div class="col col-lg-10" >
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>Start: {{ appt.startTime }}</td>
+					<td>End: {{ appt.endTime }}</td>
+					<td>Room: {{ appt.room }}</td>
+					<td>Student Assigned: {{ appt.SID }}</td>
+				</tr>
+			</tbody>
+		</table>
+</div>
+
+
+<div class="col col-lg-10" >
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>Name</td>
+					<td>Submitted at</td>
+					<td>Preference</td>
+					<td>Assign this time slot to student</td>
+					<td>View student's profile</td>
+				</tr>
+				<tr>
+					<td>Alan Duan</td>
+					<td>9:03 AM, Dec 13</td>
+					<td>2</td>
+					<td>
+					<button type="button" class="btn btn-outline-cbs outline btn-block" onclick="changeAssignedStudent('Alan Duan')">Assign to student</button>
+					</td>
+					<td>
+					<button type="button" class="btn btn-outline-cbs outline btn-block"><a class="nodecor-button" href="#">View profile</a></button>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Ben Lee</td>
+					<td>9:08 AM, Dec 13</td>
+					<td>1</td>
+					<td>
+						<button type="button" class="btn btn-outline-cbs outline btn-block" onclick="changeAssignedStudent('Ben Lee')">Assign to student</button>
+					</td>
+					<td>
+					<button type="button" class="btn btn-outline-cbs outline btn-block"><a class="nodecor-button" href="#">View profile</a></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+</div>
+
+
 
 
 {% endblock %}
