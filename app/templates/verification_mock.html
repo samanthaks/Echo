@@ -19,6 +19,13 @@
 
   
   {% if data %}
+    {% if data['email'] == None %}
+    <br> <br>
+    <div class="col-lg-8">
+
+      <h5>UNVERIFIED USER</h5>
+    </div>
+    {% else %}
     <br> <br>
     <div class="col-lg-8">
 
@@ -30,5 +37,6 @@
     	<p><b>Cluster: </b>{{ data['cluster']}}</p>
     	<p><b>Email: </b>{{ data['email']}}</p>
     </div>
-  {% endif %}
+    {% endif %}
+  {% endif%}
 {% endblock %}

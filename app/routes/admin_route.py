@@ -7,7 +7,7 @@ from app.CBSLogin.CBSLogin import CBSLogin
 from datetime import datetime
 
 admin = Blueprint('admin', __name__, template_folder='../templates')
-
+global CBSUser
 
 @admin.route('/adminHome')
 def admin_homepage():
@@ -70,27 +70,23 @@ def view_exec():
 
 @admin.route('/verificationMockLogin', methods=['GET','POST'])
 def verification_mock_login():
-	form = VerificationMockForm(request.form)
-	if request.method == 'GET':
-		return render_template('verification_mock_login.html', form=form)	
-	elif request.method == 'POST' and form.validate():
-		session['username'] = form.username.data
-		session['password'] = form.password.data
-		return redirect(url_for('admin.verification_mock'))
+    form = VerificationMockForm(request.form)
+    if request.method == 'GET':
+        return render_template('verification_mock_login.html', form=form)   
+    elif request.method == 'POST' and form.validate():
+        global CBSUser 
+        CBSUser = CBSLogin(form.username.data, form.password.data)
+        return redirect(url_for('admin.verification_mock'))
 
 @admin.route('/verificationMock', methods=['GET','POST'])
 def verification_mock():
-	form = VerificationMockForm(request.form)
-	if request.method == 'GET':
-		return render_template('verification_mock.html', form=form)
-	elif request.method == 'POST' and form.validate():
-		username = session['username']
-		password = session['password']
-		login = CBSLogin(username,password)
-		name, program, entry_term, cluster, email = login.getInfo(form.username.data)
-		# name, program, entry_term, cluster, email = 1,2,3,4,5
-		data = {'lifetimeID': form.username.data, 'name': name, 'program': program, 'entry_term': entry_term, 'cluster': cluster, 'email': email}
-		return render_template('verification_mock.html', form=form, data=data)
+    form = VerificationMockForm(request.form)
+    if request.method == 'GET':
+        return render_template('verification_mock.html', form=form)
+    elif request.method == 'POST' and form.validate():
+        name, program, entry_term, cluster, email = CBSUser.getInfo(form.username.data)
+        data = {'lifetimeID': form.username.data, 'name': name, 'program': program, 'entry_term': entry_term, 'cluster': cluster, 'email': email}
+        return render_template('verification_mock.html', form=form, data=data)
 
 @admin.route('/createMeeting_v2', methods=['GET', 'POST'])
 def create_meeting_v2():
