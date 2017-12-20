@@ -4,22 +4,31 @@
 {% block content %}
 {% from "_formhelpers.html" import render_field %}
   <form method=post>
-  <dl>
-    {{ render_field(form.username) }}
-  </dl>
 
+
+  <div class="col-lg-8">
+      {{form.username.label(class="col-lg-2", style="padding:0;")}}
+      {{form.username(class="col-lg-4")}}
+  </div>
+  <br>
   <div class="col-lg-2">
     <button class="btn-outline-cbs btn btn-block outline" type="submit">Search</button>
   </div>
 
   </form>
+
+  
   {% if data %}
-  	<h4> Verified! </h4>
-  	<p><b>Lifetime ID: </b>{{ data['lifetimeID']}}</p>
-  	<p><b>Name: </b>{{ data['name']}}</p>
-  	<p><b>Program: </b>{{ data['program']}}</p>
-  	<p><b>Entry Term: </b>{{ data['entry_term']}}</p>
-  	<p><b>Cluster: </b>{{ data['cluster']}}</p>
-  	<p><b>Email: </b>{{ data['email']}}</p>
+    <br> <br>
+    <div class="col-lg-8">
+
+      <h5>USER VERIFIED</h5>
+    	<p><b>Lifetime ID: </b>{{ data['lifetimeID']}}</p>
+    	<p><b>Name: </b>{{ data['name']}}</p>
+    	<p><b>Program: </b>{{ data['program']}}</p>
+    	<p><b>Entry Term: </b>{{ data['entry_term']}}</p>
+    	<p><b>Cluster: </b>{{ data['cluster']}}</p>
+    	<p><b>Email: </b>{{ data['email']}}</p>
+    </div>
   {% endif %}
 {% endblock %}
